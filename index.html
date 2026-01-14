@@ -36,43 +36,120 @@
         }
       }
     </script>
+    <style>
+      /* Animação suave para o menu mobile */
+      .mobile-menu-enter {
+        opacity: 0;
+        transform: scale(0.95) translateY(-10px);
+      }
+      .mobile-menu-enter-active {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        transition: opacity 300ms ease-out, transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .mobile-menu-exit {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+      .mobile-menu-exit-active {
+        opacity: 0;
+        transform: scale(0.95) translateY(-10px);
+        transition: opacity 200ms ease-in, transform 200ms ease-in;
+      }
+    </style>
   </head>
   <body class="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-blue-200">
 
     <!-- Floating Header -->
-    <header class="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
-      <div class="bg-white/60 backdrop-blur-2xl shadow-xl rounded-full px-6 py-3 flex items-center w-full max-w-4xl border border-white/40">
+    <header class="fixed top-4 left-0 right-0 z-50 px-4 flex justify-center">
+      <div class="relative w-full max-w-4xl">
         
-        <!-- Logo (com mr-auto para empurrar o resto para a direita) -->
-        <div class="flex items-center gap-2 cursor-pointer mr-auto" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
-          <div class="bg-blue-600 p-1.5 rounded-lg">
-            <i data-lucide="code-2" class="w-5 h-5 text-white"></i>
+        <!-- Barra Principal -->
+        <div class="bg-white/70 backdrop-blur-xl shadow-lg rounded-2xl md:rounded-full px-5 py-3 flex items-center justify-between border border-white/50 relative z-50">
+          
+          <!-- Logo -->
+          <div class="flex items-center gap-2 cursor-pointer" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+            <div class="bg-blue-600 p-1.5 rounded-lg shadow-sm">
+              <i data-lucide="code-2" class="w-5 h-5 text-white"></i>
+            </div>
+            <span class="font-bold text-lg tracking-tight text-slate-800">Web<span class="text-blue-600">Crafter</span></span>
           </div>
-          <span class="font-bold text-lg tracking-tight text-slate-800">Web<span class="text-blue-600">Crafter</span></span>
+
+          <!-- Desktop Nav -->
+          <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600 ml-auto mr-6">
+            <a href="#portfolio" class="hover:text-blue-600 transition-colors">Portfólio</a>
+            <a href="#processo" class="hover:text-blue-600 transition-colors">Processo</a>
+            <a href="#contato" class="hover:text-blue-600 transition-colors">Contato</a>
+          </nav>
+
+          <!-- Desktop CTA -->
+          <a href="#contato" class="hidden md:inline-flex bg-slate-900 text-white px-6 py-2.5 rounded-full text-sm font-medium hover:bg-slate-800 transition-transform hover:scale-105 shadow-lg shadow-slate-900/20">
+            Orçamento
+          </a>
+
+          <!-- Mobile Hamburger Button -->
+          <button id="mobile-menu-btn" class="md:hidden text-slate-700 p-2 hover:bg-slate-100 rounded-lg transition-colors focus:outline-none">
+            <i data-lucide="menu" id="menu-icon" class="w-6 h-6"></i>
+            <i data-lucide="x" id="close-icon" class="w-6 h-6 hidden"></i>
+          </button>
         </div>
 
-        <!-- Nav (agrupada na direita com o botão) -->
-        <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-700 mr-6">
-          <a href="#portfolio" class="hover:text-blue-600 transition-colors">Portfólio</a>
-          <a href="#processo" class="hover:text-blue-600 transition-colors">Processo</a>
-          <a href="#contato" class="hover:text-blue-600 transition-colors">Contato</a>
-        </nav>
+        <!-- Mobile Menu Dropdown (Card Style) -->
+        <div id="mobile-menu" class="absolute top-full left-0 right-0 mt-3 hidden origin-top z-40">
+          <div class="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden p-3">
+            
+            <!-- Menu Links -->
+            <div class="space-y-1">
+              <a href="#portfolio" class="mobile-link flex items-center justify-between p-4 rounded-xl hover:bg-slate-50 transition-colors group">
+                <span class="font-bold text-slate-800">Portfólio</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-hover:text-blue-600 transition-colors"></i>
+              </a>
+              <a href="#processo" class="mobile-link flex items-center justify-between p-4 rounded-xl hover:bg-slate-50 transition-colors group">
+                <span class="font-bold text-slate-800">Processo</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-hover:text-blue-600 transition-colors"></i>
+              </a>
+              <a href="#contato" class="mobile-link flex items-center justify-between p-4 rounded-xl hover:bg-slate-50 transition-colors group">
+                <span class="font-bold text-slate-800">Contato</span>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-hover:text-blue-600 transition-colors"></i>
+              </a>
+            </div>
 
-        <a href="#contato" class="bg-slate-900 text-white px-6 py-2.5 rounded-full text-sm font-medium hover:bg-slate-800 transition-transform hover:scale-105 no-underline shadow-lg shadow-slate-900/20">
-          Orçamento
-        </a>
+            <!-- CTA Button -->
+            <div class="mt-4 px-2">
+              <a href="#contato" class="mobile-link w-full bg-blue-600 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20">
+                Solicitar Orçamento <i data-lucide="sparkles" class="w-4 h-4"></i>
+              </a>
+            </div>
+
+            <!-- Social / Info Card (Blue Gradient) -->
+            <div class="mt-4 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-6 text-white text-center">
+              <p class="font-bold text-lg mb-1">WebCrafter</p>
+              <p class="text-blue-100 text-xs mb-4">Acompanhe nosso trabalho</p>
+              
+              <div class="bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/10">
+                <div class="text-yellow-400 mb-2 flex justify-center">
+                   <i data-lucide="mail" class="w-6 h-6"></i>
+                </div>
+                <h3 class="font-bold text-sm">E-mail</h3>
+                <span class="text-[10px] text-blue-100">Orçamento personalizado</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
       </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="pt-40 pb-20 px-4 max-w-7xl mx-auto">
+    <section class="pt-32 md:pt-40 pb-20 px-4 max-w-7xl mx-auto">
       <div class="max-w-4xl">
-        <div class="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-1.5 rounded-full text-sm font-medium mb-8">
-          <i data-lucide="code-2" class="w-4 h-4"></i>
+        <div class="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-1.5 rounded-full text-xs md:text-sm font-medium mb-6 md:mb-8">
+          <i data-lucide="code-2" class="w-3 h-3 md:w-4 md:h-4"></i>
           Desenvolvimento Web Especializado
         </div>
         
-        <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 text-slate-900 leading-[1.1]">
+        <h1 class="text-4xl md:text-7xl font-extrabold tracking-tight mb-6 text-slate-900 leading-[1.1]">
           Criação de Sites <br />
           Profissionais para <br />
           <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
@@ -80,15 +157,15 @@
           </span>
         </h1>
         
-        <p class="text-lg md:text-xl text-slate-600 mb-10 leading-relaxed max-w-2xl">
+        <p class="text-base md:text-xl text-slate-600 mb-8 md:mb-10 leading-relaxed max-w-2xl">
           Transforme visitantes em clientes com um site moderno, rápido e otimizado para celulares. Design exclusivo que valoriza sua marca.
         </p>
 
         <div class="flex flex-col sm:flex-row gap-4">
-          <a href="#portfolio" class="bg-blue-600 text-white px-8 py-3.5 rounded-lg font-semibold hover:bg-blue-700 transition-all hover:scale-105 flex items-center justify-center gap-2 shadow-lg shadow-blue-600/20">
+          <a href="#portfolio" class="bg-blue-600 text-white px-8 py-3.5 rounded-lg font-semibold hover:bg-blue-700 transition-all hover:scale-105 flex items-center justify-center gap-2 shadow-lg shadow-blue-600/20 text-sm md:text-base">
             Ver Projetos <i data-lucide="chevron-right" class="w-4 h-4"></i>
           </a>
-          <a href="#contato" class="bg-white text-slate-700 border border-slate-200 px-8 py-3.5 rounded-lg font-semibold hover:bg-slate-50 transition-all hover:scale-105 text-center">
+          <a href="#contato" class="bg-white text-slate-700 border border-slate-200 px-8 py-3.5 rounded-lg font-semibold hover:bg-slate-50 transition-all hover:scale-105 text-center text-sm md:text-base">
             Solicitar Orçamento
           </a>
         </div>
@@ -323,6 +400,62 @@
 
     <script>
       lucide.createIcons();
+
+      // Mobile Menu Logic
+      const btn = document.getElementById('mobile-menu-btn');
+      const menu = document.getElementById('mobile-menu');
+      const menuIcon = document.getElementById('menu-icon');
+      const closeIcon = document.getElementById('close-icon');
+      const links = document.querySelectorAll('.mobile-link');
+
+      let isMenuOpen = false;
+
+      function toggleMenu() {
+        isMenuOpen = !isMenuOpen;
+        
+        if (isMenuOpen) {
+          // Open
+          menu.classList.remove('hidden');
+          requestAnimationFrame(() => {
+             menu.classList.add('mobile-menu-enter-active');
+             menu.classList.remove('mobile-menu-enter');
+          });
+          
+          // Icon Swap
+          menuIcon.classList.add('hidden');
+          closeIcon.classList.remove('hidden');
+        } else {
+          // Close
+          menu.classList.add('mobile-menu-exit-active');
+          menu.classList.remove('mobile-menu-exit');
+          
+          setTimeout(() => {
+            menu.classList.add('hidden');
+            menu.classList.remove('mobile-menu-exit-active');
+            menu.classList.remove('mobile-menu-enter-active');
+          }, 200);
+
+          // Icon Swap
+          menuIcon.classList.remove('hidden');
+          closeIcon.classList.add('hidden');
+        }
+      }
+
+      btn.addEventListener('click', toggleMenu);
+
+      // Close menu when clicking a link
+      links.forEach(link => {
+        link.addEventListener('click', () => {
+          if(isMenuOpen) toggleMenu();
+        });
+      });
+
+      // Close menu when clicking outside
+      document.addEventListener('click', (e) => {
+        if (isMenuOpen && !menu.contains(e.target) && !btn.contains(e.target)) {
+          toggleMenu();
+        }
+      });
     </script>
   </body>
 </html>
